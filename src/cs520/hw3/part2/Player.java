@@ -12,11 +12,8 @@ private String name;
 private String position;
 private String year;
 
-public Player(int number, String name, String position, String year) {
-	this.name=name;
-	this.number=number;
-	this.position=position;
-	this.year=year;
+public Player( String name) {
+	name=this.name;
 }
 
 public int getNumber() {
@@ -50,7 +47,7 @@ public String getYear() {
 public void setYear(String year) {
 	this.year = year;
 }
-public double computeScoreAverage() {
+public double computeScoringAverage() {
 	//Random random=new Random;
 	return Math.random()*10;
 }

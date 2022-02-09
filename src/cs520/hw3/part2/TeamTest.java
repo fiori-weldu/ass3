@@ -5,52 +5,90 @@
 
 package cs520.hw3.part2;
 
-public class TeamTest {
-	public static void main(String[] arg) {
-		try {
-	Player player1=new Player(50,"George Washington","F","So.");
-	System.out.println(player1.toString()+":"+player1.computeScoreAverage());
-	
-	Player player2=new Player(12,"John Adams","D","Jr.");
-	System.out.println(player2.toString()+":"+player2.computeScoreAverage());
-	
-	Player player3=new Player(2 ,"Case McCarthy" ,"D","Jr." );
-	System.out.println(player3.toString()+":"+player3.computeScoreAverage());
-	
-	Player player4=new Player(5 ,"Thomas Jarman","D","So.");
-	System.out.println(player4.toString()+":"+player4.computeScoreAverage());
-	
-	Player player5=new Player(5 ,"Thomas Jarman","D","So." );
-	System.out.println(player5.toString()+":"+player5.computeScoreAverage());
-	
-	Player player6=new Player(7 ,"Alex Vlasic","D" ,"Jr.");
-	System.out.println(player6.toString()+":"+player6.computeScoreAverage());
-	
-	Player player7=new Player(8 ,"Cade Webber","D","So." );
-	System.out.println(player7.toString()+":"+player7.computeScoreAverage());
-	
-	Player player8=new Player(9 ,"Logan Cockerill","F","Sr.");
-	System.out.println(player8.toString()+":"+player8.computeScoreAverage());
-	
-	Player player9=new Player(10,"Nick Zabaneh" ,"F","So.");
-	System.out.println(player9.toString()+":"+player9.computeScoreAverage());
-	
-	Player player10=new Player(11,"Luke Touch","F" ,"So.");
-	System.out.println(player10.toString()+":"+player10.computeScoreAverage());
-	
-	double Total=player1.computeScoreAverage()+player2.computeScoreAverage()+player3.computeScoreAverage()+
-			player4.computeScoreAverage()+	player5.computeScoreAverage()+player6.computeScoreAverage()+
-			player7.computeScoreAverage()+player8.computeScoreAverage()+player9.computeScoreAverage()+
-			player10.computeScoreAverage();
-	
-	System.out.println("Average score is: "+(Total/10));
-	
-		}
-		catch(Exception e){
-			System.out.println("Oops there is something going on!");
-			System.out.println(e);
-			
-		}
-}
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
 
+import cs520.hw4.Game;
+import cs520.hw4.Player;
+
+public class TeamTest {
+	public static Player createPlayer(String number, String name, String position, String year) {
+
+		// Convert number argument from string to integer
+		int uniformNumber = Integer.parseInt(number);
+
+		// Instantiate Player and set its instance variables
+		Player player = new Player(name);
+		player.setName(name);
+		player.setNumber(uniformNumber);
+		player.setPosition(position);
+		player.setYear(year);
+
+		// Call the player instance computeScoringAverage() method and save the returned
+		// score
+		//double score = player.computeScoringAverage();
+
+		// Print the player's information and scoring average to the console
+		System.out.printf("%s:  %d%n", player);
+
+		return player;
+	}
+
+	public static void main(String[] args) {
+
+		// Initialize Scanner object
+		Scanner scanner = null;
+
+		try {
+			// initialize totalScoringAverage
+//			double totalScoringAverage = 0.0;
+
+			// Instantiate File object with file input of team.txt
+			// Instantiate Scanner object with file input
+			File file = new File("team.txt");
+			scanner = new Scanner(file);
+			ArrayList<Player> players=new ArrayList<Player>();
+			// Loop through scanner input file, reading the first four lines into variables
+			while (scanner.hasNextLine()) {
+				String number = scanner.nextLine();
+				String name = scanner.nextLine();
+				String position = scanner.nextLine();
+				String year = scanner.nextLine();
+
+				// Go to the next line in order to ignore the fifth line "----"
+				scanner.nextLine();
+
+				// Pass the variables from each loop to createPlayer() method
+				Player player = createPlayer(number, name, position, year);
+				players.add(player);
+
+				// Add the returned value from the createPlayer() method to totalScoringAverage
+//				totalScoringAverage += playerScore;
+			}
+			String[] opponents = new String[] {"BC", "Northeastern", "Harvard",
+					"MIT", "UMass"};
+			for(int i=0; i<opponents.length;i++) {
+				Game game= new Game();
+				game.set_teamName("Boston University");
+				game.set_opponentName(opponents[i]);
+				game.setDate(2,3,2021);
+				game.set_players(players);
+				game.simulateGame();
+				
+			}
+			// compute the average for all players
+//			double playerAverage = totalScoringAverage / 10;
+
+//			System.out.println("\nAverage score:  " + playerAverage);
+		} catch (Exception e) {
+			// Display friendly message to console when an Exception is caught
+			System.out.println("Sorry, but an error has occurred. Check and re-run the program.");
+		} finally {
+			// Check if scanner is before closing it
+			if (scanner != null) {
+				scanner.close();
+			}
+		}
+	}
 }
